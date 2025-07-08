@@ -174,3 +174,11 @@ fail_under = 80
 
 [tool.coverage.html]
 directory = "htmlcov"
+
+# PySide6 Deploy Configuration
+[tool.pyside6-project]
+name = "focus-backdrop"
+version = "250707.0"
+description = "A cross-platform screen overlay application with variable opacity and color backgrounds"
+main-file = "src/focus_backdrop/main.py"
+icon = "src/focus_backdrop/resources/icons/focus_backdrop_icon_512px.png"

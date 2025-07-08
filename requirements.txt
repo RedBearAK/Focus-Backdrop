@@ -1,0 +1,14 @@
+# Focus Backdrop Requirements
+# For production/runtime use
+
+PySide6>=6.4.0
+
+# Development dependencies (optional)
+# Uncomment if needed for development:
+# pytest>=7.0
+# pytest-qt>=4.0
+# pytest-cov>=4.0
+# black>=22.0
+# flake8>=4.0
+# mypy>=0.991
+# build>=0.8

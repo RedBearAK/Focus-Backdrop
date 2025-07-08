@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import signal
@@ -86,3 +88,10 @@ def main(args: argparse.Namespace):
     if args.preferences:
         main_window.show_preferences_dialog()
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Focus Backdrop")
+    parser.add_argument("--preferences", action="store_true", help="Open the preferences dialog")
+    args = parser.parse_args()
+    main(args)
