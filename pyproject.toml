@@ -1,0 +1,176 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "focus-backdrop"
+dynamic = ["version"]
+description = "A cross-platform screen overlay application with variable opacity and color backgrounds"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+authors = [
+    {name = "RedBearAK", email = "64876997+RedBearAK@users.noreply.github.com"},
+]
+maintainers = [
+    {name = "RedBearAK", email = "64876997+RedBearAK@users.noreply.github.com"},
+]
+keywords = ["overlay", "backdrop", "screen", "pyside6", "qt", "gui"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Desktop Environment",
+    "Topic :: Multimedia :: Graphics",
+    "Environment :: X11 Applications :: Qt",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "PySide6>=6.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "mypy>=0.991",
+    "build>=0.8",
+]
+test = [
+    "pytest>=7.0",
+    "pytest-qt>=4.0",
+    "pytest-cov>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/RedBearAK/Focus-Backdrop"
+Repository = "https://github.com/RedBearAK/Focus-Backdrop"
+Issues = "https://github.com/RedBearAK/Focus-Backdrop/issues"
+Documentation = "https://github.com/RedBearAK/Focus-Backdrop#readme"
+
+[project.scripts]
+focus-backdrop = "focus_backdrop.main:main"
+
+[project.gui-scripts]
+focus-backdrop-gui = "focus_backdrop.main:main"
+
+# Allow running with: python -m focus_backdrop
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+version = {attr = "focus_backdrop._version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["focus_backdrop*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+focus_backdrop = [
+    "resources/icons/*",
+    "resources/data/*",
+    "resources/**/*",
+]
+
+# Black code formatting
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+# Flake8 linting
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".eggs",
+    "*.egg-info",
+    ".venv",
+    ".mypy_cache",
+]
+
+# MyPy type checking
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "PySide6.*"
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "-ra",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__main__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 80
+
+[tool.coverage.html]
+directory = "htmlcov"

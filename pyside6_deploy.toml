@@ -1,0 +1,163 @@
+# PySide6 Deploy Configuration for Focus Backdrop
+# This file should be placed in the repository root alongside pyproject.toml
+# Note: The app includes asset path detection for both compiled and development modes
+# Version sync: Run `python scripts/sync_version.py` after updating src/focus_backdrop/_version.py
+
+[app]
+# Application metadata
+title = "Focus Backdrop"
+project_dir = "."
+source_file = "src/focus_backdrop/main.py"
+project_file = "pyproject.toml"
+
+# Exclude QML if not used (reduces size)
+exclude_qml_plugins = true
+
+# Application icon (will be converted appropriately for each platform)
+icon = "src/focus_backdrop/resources/icons/focus_backdrop_icon_512px.png"
+
+# Permission settings (none needed for this app)
+# permissions = []
+
+[python]
+# Python packages to include
+packages = ["PySide6"]
+
+# Packages to exclude (reduces bundle size)
+excluded_packages = [
+    "tkinter",           # Not using Tkinter
+    "email",             # No email functionality
+    "http",              # No HTTP client/server
+    "xmlrpc",            # No XML-RPC
+    "pydoc",             # No documentation tools
+    "doctest",           # No doctests
+    "test",              # No test modules
+    "unittest",          # No unit tests in bundle
+]
+
+# Python modules to exclude (be conservative - only exclude what we're sure about)
+excluded_modules = [
+    "audioop",           # No audio processing
+    "wave",              # No audio files
+    "sqlite3",           # No database (QSettings uses system storage)
+]
+
+[qt]
+# Qt plugins to include (based on actual usage)
+plugins = [
+    "platforms",        # Essential for any Qt app
+    "imageformats",     # For loading backdrop images (PNG, JPG, etc.)
+    "iconengines",      # For SVG app icon
+    "platformthemes",   # For native OS look and feel
+]
+
+# Qt modules (auto-detected, but explicitly listing what's used)
+modules = ["Core", "Gui", "Widgets"]
+
+# Exclude unused Qt modules to reduce size
+excluded_modules = [
+    "Network",
+    "WebEngine", 
+    "WebEngineCore",
+    "WebEngineWidgets",
+    "Multimedia",
+    "MultimediaWidgets",
+    "Quick",
+    "Qml",
+    "QmlModels",
+    "3DCore",
+    "3DRender",
+    "3DInput",
+    "3DLogic",
+    "3DAnimation",
+    "3DExtras",
+    "Charts",
+    "DataVisualization",
+]
+
+[linux]
+# Linux-specific settings
+icon = "src/focus_backdrop/resources/icons/focus_backdrop_icon.svg"
+
+# Desktop file will be generated automatically, but you can customize
+[linux.desktop_file]
+comment = "A screen overlay application with variable opacity"
+keywords = "overlay;backdrop;screen;graphics"
+categories = "Graphics;Utility"
+startup_notify = true
+no_display = false
+
+[macos]
+# macOS-specific settings
+icon = "src/focus_backdrop/resources/icons/focus_backdrop_icon.svg"
+identifier = "com.redbearak.focus-backdrop"
+
+# macOS bundle settings
+[macos.bundle]
+category = "public.app-category.graphics-design"
+copyright = "Copyright © 2025 RedBearAK. All rights reserved."
+version = "250707.0"
+short_version = "250707"
+
+# macOS Info.plist additions
+[macos.info_plist]
+LSMinimumSystemVersion = "10.14"
+NSHighResolutionCapable = true
+LSUIElement = false  # Set to true if you want it to not appear in dock
+NSSupportsAutomaticGraphicsSwitching = true
+
+[windows]
+# Windows-specific settings  
+icon = "src/focus_backdrop/resources/icons/focus_backdrop_icon_512px.png"
+
+# Windows executable settings
+[windows.executable]
+version = "250707.0"
+company_name = "RedBearAK"
+file_description = "Focus Backdrop - Screen Overlay Application"
+internal_name = "focus-backdrop"
+legal_copyright = "Copyright © 2025 RedBearAK"
+original_filename = "focus-backdrop.exe"
+product_name = "Focus Backdrop"
+product_version = "250707.0"
+
+# Windows-specific options
+console = false  # Set to true for debugging
+one_file = true  # Creates single executable file
+
+# Optional: Code signing (requires certificates)
+# [windows.signing]
+# certificate = "path/to/certificate.p12"
+# password = "certificate_password"
+
+# Build optimizations
+[build]
+# Optimization level
+optimize = 2
+
+# Strip debug symbols in release builds
+strip = true
+
+# Compress the executable
+upx = false  # Set to true if you have UPX installed
+
+# Include additional files/directories
+include_files = [
+    "README.md",
+    "LICENSE",
+    # Note: assets are included via setuptools.package-data in pyproject.toml
+]
+
+# Additional build options
+[build.options]
+# Reduce bundle size
+exclude_standard_library = false
+prefer_system_libraries = true
+
+# Performance options
+lazy_imports = true
+bytecode_optimization = 2
+
+# Debugging options (disable for release)
+debug = false
+verbose = false
